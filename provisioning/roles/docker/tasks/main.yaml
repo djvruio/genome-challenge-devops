@@ -1,0 +1,30 @@
+- name: 1.d-install prerequisites
+  apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - python3-virtualenv
+      - libmariadb3
+      - libmariadb-dev
+    update_cache: yes
+
+- name: 2.d-add apt-key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+
+- name: 3.d-add docker repo
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+
+- name: 4.d-install docker and docker-compose
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose
+    update_cache: yes
+
+- name: 5.d-add userpermissions
+  shell: "usermod -a -G docker vagrant"

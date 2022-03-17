@@ -1,0 +1,2 @@
+[develsrv]
+192.168.56.56 ansible_ssh_user=vagrant ansible_ssh_pass=vagrant

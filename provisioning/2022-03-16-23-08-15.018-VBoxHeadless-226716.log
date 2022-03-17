@@ -1,0 +1,12 @@
+Log created: 2022-03-16T23:08:15.187468000Z
+Process ID:  226716 (0x3759c)
+Parent PID:  1493 (0x5d5)
+Executable:  /usr/lib/virtualbox/VBoxHeadless
+Arg[0]: /usr/lib/virtualbox/VBoxHeadless
+Arg[1]: --comment
+Arg[2]: genome-challenge-devops_database_1647409596099_42546
+Arg[3]: --startvm
+Arg[4]: b200524a-3638-4bbe-a1b4-27fe66b2a887
+Arg[5]: --vrde
+Arg[6]: config
+AddRef: illegal refcnt=3221225469 state=2
