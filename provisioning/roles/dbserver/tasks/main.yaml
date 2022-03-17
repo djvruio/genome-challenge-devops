@@ -69,16 +69,6 @@
 - name: 13.Start MariaDB
   service: name=mariadb state=started
 
-# - name: 15.Create database user with all database privileges
-#   mysql_user:
-#     login_user: "{{ mariadb_root_user }}"
-#     login_password: '{{ mariadb_password }}'
-#     name: "{{ mariadb_user }}"
-#     password: "{{ mariadb_password }}"
-#     host: "%"
-#     priv: '*.*:ALL'
-#     state: present
-
 - name: 16.Create new database
   mysql_db:
     name: "{{ mariadb_test_database }}"
