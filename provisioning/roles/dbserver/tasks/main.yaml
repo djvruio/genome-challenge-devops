@@ -1,4 +1,4 @@
-- name: 1.Install common properties and other tools
+- name: 1-install common properties and other tools
   apt:
     name:
       - software-properties-common
@@ -8,22 +8,22 @@
     state: present
     update_cache: yes
     
-- name: 2.Make sure that pymysql is present
+- name: 2-make sure that pymysql is present
   pip:
     name: pymysql
     state: present
 
-- name: 3.Add an apt key by id from a keyserver
+- name: 3-add an apt key by id from a keyserver
   ansible.builtin.apt_key:
     keyserver: hkp://keyserver.ubuntu.com:80
     id: "0xF1656F24C74CD1D8"
 
-- name: 4.Add specified repository into sources list
+- name: 4-add specified repository into sources list
   ansible.builtin.apt_repository:
     repo: deb [arch=amd64,arm64,ppc64el,s390x] https://mirror.realcompute.io/mariadb/repo/10.6/ubuntu focal main
     state: present
 
-- name: 5.Install MariaDB
+- name: 5-install mariadb
   apt:
     name:
       - mariadb-server
@@ -39,47 +39,57 @@
       skip-networking=0
       skip-bind-address
 
-- name: Restart MariaDB service
+- name: 7-restart mariadb service
   service:
     name: mariadb
     state: restarted
 
-- name: 7-stop mariadb
+- name: 8-stop mariadb
   service: name=mariadb state=stopped
     
-- name: 8-set environment variables
+- name: 9-set environment variables
   shell: systemctl set-environment MYSQLD_OPTS="--skip-grant-tables --skip-networking"
 
-- name: 9-start mariadb
+- name: 10-start mariadb
   service: name=mariadb state=started
 
-- name: 10-sql query flush privileges
+- name: 11-sql query flush privileges
   command:  mysql -u root --execute="FLUSH PRIVILEGES"
 
 #TODO task non idempotent
-- name: 10.SQL query to connect without password
+- name: 12-sql query to connect without password
   command:  mysql -u root --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ mariadb_password }}';"
 
-- name: 11.Stop MariaDB
+- name: 13-stop mariadb
   service: name=mariadb state=stopped
 
-- name: 12.Unset environment variables
+- name: 14-unset environment variables
   shell: systemctl unset-environment MYSQLD_OPTS
 
-- name: 13.Start MariaDB
+- name: 15-start mariadb
   service: name=mariadb state=started
 
-- name: 16.Create new database
+- name: 16-create a new database
   mysql_db:
     name: "{{ mariadb_test_database }}"
     login_user: "{{ mariadb_root_user }}"
     login_password: "{{ mariadb_password }}"
     state: present
 
-- name: 17.Insert sample data into database  
+- name: 17-insert sample data into database  
   mysql_db: 
     name: "{{ mariadb_test_database }}"
     state: import
     target: /vagrant/dump.sql 
     login_user: "{{ mariadb_root_user }}"
     login_password: "{{ mariadb_password }}"
+
+- name: 18-create database user
+  mysql_user:
+    login_user: "{{ mariadb_root_user }}"
+    login_password: "{{ mariadb_password }}"
+    name: "{{ mariadb_user }}"
+    password: "{{ mariadb_password }}"
+    host: "%"
+    priv: '*.*:ALL'
+    state: present
