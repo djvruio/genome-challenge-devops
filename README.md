@@ -24,6 +24,7 @@ System Administration and DevOps code challenge.
 6. [Configuring MariaDB for Remote Client Access](https://mariadb.com/kb/en/configuring-mariadb-for-remote-client-access/)
 7. [Virtualbox Networking](https://www.youtube.com/watch?v=VvNPUooobyE)
 8. [Problem copying a file to remote host with Ansible](https://access.redhat.com/discussions/3916281)
+9. [Status Code](https://stackoverflow.com/questions/42143115/which-status-code-is-correct-404-or-400-and-when-to-use-either-of-these)
 
 ## Useful commands
 
