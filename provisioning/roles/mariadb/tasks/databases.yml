@@ -1,0 +1,28 @@
+---
+- name: Ensure MariaDB databases are present (or absent)
+  mysql_db:
+    name: "{{ item.name }}"
+    collation: "{{ item.collation | default('utf8_general_ci') }}"
+    encoding: "{{ item.encoding | default('utf8') }}"
+    state: "{{ item.state | default('present') }}"
+    login_unix_socket: "{{ mariadb_unix_socket }}"
+  with_items: "{{ mariadb_databases }}"
+
+- name: Deploy sql data dump script
+  ansible.builtin.copy:
+    src: dump.sql
+    dest: /tmp/dump.sql
+    owner: "{{ vagrant_user }}"
+    group: "{{ vagrant_group }}"
+    mode: 0744
+    
+
+- name: Insert sample data into database  
+  mysql_db: 
+    name: "{{ my_database_name }}"
+    state: import
+    target: /tmp/dump.sql 
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    # https://github.com/ansible/ansible/issues/55917
+    # https://github.com/ansible/ansible/issues/56261#issuecomment-518706304
+    

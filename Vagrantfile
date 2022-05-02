@@ -15,18 +15,33 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "devel" do |devel|
     devel.vm.hostname = "develsrv"
     devel.vm.network "private_network", ip: "192.168.56.56"
-    devel.vm.network "forwarded_port", guest: 3306, host: 3310
     devel.vm.network "forwarded_port", guest: 5000, host: 5010
-    devel.vm.synced_folder "data", "/vagrant"
     devel.vm.synced_folder ".", "/vagrant"
 
-    devel.vm.provision "ansible" do |a|
-      a.limit = "all"
+    devel.vm.provision "ansible_local" do |a|
+      a.verbose = true
+      a.become = true
+      a.limit = "devel"
       a.playbook = "./provisioning/site.yaml"
       a.inventory_path = "./provisioning/hosts"
-      a.verbose = "v"
     end
     devel.vm.post_up_message = "Successfully started developer (DEVEL) server box."
   end
+
+  config.vm.define "database" do |db|
+    db.vm.hostname = "dbsrv"
+    db.vm.network "private_network", ip: "192.168.56.57"
+    db.vm.network "forwarded_port", guest: 3306, host: 3306
+
+    db.vm.provision "ansible_local" do |a|
+      a.verbose = true
+      a.become = true
+      a.limit = "database"
+      a.playbook = "./provisioning/site.yaml"
+      a.inventory_path = "./provisioning/hosts"
+    end
+    db.vm.post_up_message = "Successfully started database (DB) server box."
+  end
+
 
 end

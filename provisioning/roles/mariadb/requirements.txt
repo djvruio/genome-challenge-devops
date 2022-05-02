@@ -1,0 +1,4 @@
+ansible
+molecule==3.6.*
+molecule-podman
+pytest-testinfra

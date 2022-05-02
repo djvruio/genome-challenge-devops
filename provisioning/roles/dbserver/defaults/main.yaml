@@ -1,6 +1,0 @@
-mariadb_user: crypto
-mariadb_password: '12345'
-
-mariadb_root_user: root
-
-mariadb_test_database: cryptos

@@ -1,8 +1,10 @@
 ---
-- hosts: develsrv
-  become: true
-  gather_facts: true
-
+- hosts: devel
+  #become: true
   roles:
-    - dbserver
     - docker
+
+- hosts: database
+  #become: true
+  roles:
+    - mariadb
