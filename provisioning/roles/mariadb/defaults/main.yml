@@ -81,10 +81,13 @@ mariadb_databases:
 # Users
 mariadb_users: #[]
    - name: crypto1
-     host_all: yes 
+     host: "192.168.56.56"
+     #host_all: yes #ip from i wanted only access 
+     #login_host: "192.168.56.57"
      password: "12345"
      priv: "*.*:ALL"
      state: present
+    
 
 # Replication
 # replication is only enabled if mariadb_replication_role has values

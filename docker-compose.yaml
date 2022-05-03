@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+  api-rest:
+    image: my-api-image:v1.0
+    #container_name: api_rest
+    hostname: apiserver
+    ports:
+      - "5000:5000"
+    network_mode: "host"

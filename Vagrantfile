@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "devel" do |devel|
     devel.vm.hostname = "develsrv"
     devel.vm.network "private_network", ip: "192.168.56.56"
-    devel.vm.network "forwarded_port", guest: 5000, host: 5010
+    devel.vm.network "forwarded_port", guest: 5000, host: 5000
     devel.vm.synced_folder ".", "/vagrant"
 
     devel.vm.provision "ansible_local" do |a|

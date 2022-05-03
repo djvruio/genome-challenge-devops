@@ -13,7 +13,8 @@ lc-messages-dir       = /usr/share/mysql
 lc_messages           = en_US
 skip-external-locking
 port                  = 3306
-bind-address          = 127.0.0.1
+bind-address          = 0.0.0.0
+# bind-address          = 127.0.0.1
 
 # Fine tuning
 max_connections         = 100
@@ -45,3 +46,7 @@ collation-server     = utf8mb4_general_ci
 quick
 quote-names
 max_allowed_packet = 16M
+
+[client]
+user=root
+password="12345"

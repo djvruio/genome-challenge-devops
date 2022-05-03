@@ -11,3 +11,4 @@
     login_unix_socket: "{{ mariadb_unix_socket }}"
   loop: "{{ mariadb_users }}"
   no_log: true
+

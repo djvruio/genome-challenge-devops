@@ -28,3 +28,43 @@
 
 - name: 5.d-add userpermissions
   shell: "usermod -a -G docker vagrant"
+
+- name: Deploying custom hosts file
+  ansible.builtin.copy:
+    src: hosts
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Creating the build directory
+  file:
+    path: /vagrant/build-dockerfile
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copying the API directory
+  copy:
+    src: /vagrant/api/
+    dest: /vagrant/build-dockerfile
+    owner: vagrant
+    group: vagrant
+    mode: 0644
+
+- name: Building the API image
+  docker_image:
+    name: my-api-image
+    tag: v1.0
+    build:
+      path: /vagrant/build-dockerfile
+    source: build
+    state: present
+
+- name: Create and start services
+  community.docker.docker_compose:
+    project_src: /vagrant
+    state: present
+  register: output
+    
