@@ -6,13 +6,15 @@ System Administration and DevOps code challenge.
 
 1. [Virtualbox](https://www.virtualbox.org/wiki/Downloads) must be installed in your host machine.
 2. [Vagrant](https://www.vagrantup.com/downloads) must be installed on your host machine. 
-3. [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) must be installed on your host machine. 
-4. sshpass must be installed: Ex. for Ubuntu use ```sudo apt install sshpass```
-5. Visual Studio Code or any Code Editor.
+3. Optional: [Visual Studio Code](https://code.visualstudio.com/) or any Code Editor.
 
 # How to run
 
 - ```vagrant up```
+
+# How to test
+
+- ```curl -v http://localhost:5000/api/greeting```
 
 # Research (Interesting links)
 
@@ -25,6 +27,8 @@ System Administration and DevOps code challenge.
 7. [Virtualbox Networking](https://www.youtube.com/watch?v=VvNPUooobyE)
 8. [Problem copying a file to remote host with Ansible](https://access.redhat.com/discussions/3916281)
 9. [Status Code](https://stackoverflow.com/questions/42143115/which-status-code-is-correct-404-or-400-and-when-to-use-either-of-these)
+10. [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) must be installed on your host machine.
+11. sshpass must be installed: Ex. for Ubuntu use ```sudo apt install sshpass```
 
 ## Useful commands
 
