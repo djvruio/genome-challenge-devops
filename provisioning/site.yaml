@@ -1,10 +1,8 @@
 ---
 - hosts: devel
-  #become: true
   roles:
     - docker
 
 - hosts: database
-  #become: true
   roles:
     - mariadb
