@@ -37,18 +37,18 @@
     group: root
     mode: 0644
 
-- name: Creating the build directory
+- name: Creating the build api directory
   file:
-    path: /vagrant/build-dockerfile
+    path: /vagrant/build-api-dockerfile
     state: directory
-    owner: root
-    group: root
+    owner: vagrant
+    group: vagrant
     mode: 0755
 
 - name: Copying the API directory
   copy:
     src: /vagrant/api/
-    dest: /vagrant/build-dockerfile
+    dest: /vagrant/build-api-dockerfile
     owner: vagrant
     group: vagrant
     mode: 0644
@@ -58,7 +58,32 @@
     name: my-api-image
     tag: v1.0
     build:
-      path: /vagrant/build-dockerfile
+      path: /vagrant/build-api-dockerfile
+    source: build
+    state: present
+
+- name: Creating the build loadbalancer directory
+  file:
+    path: /vagrant/build-loadbalancer-dockerfile
+    state: directory
+    owner: vagrant
+    group: vagrant
+    mode: 0755
+
+- name: Copying the loadbalancer directory
+  copy:
+    src: /vagrant/loadbalancer/
+    dest: /vagrant/build-loadbalancer-dockerfile
+    owner: vagrant
+    group: vagrant
+    mode: 0644
+
+- name: Building the loadbalancer image
+  docker_image:
+    name: my-loadbalancer
+    tag: v2.0
+    build:
+      path: /vagrant/build-loadbalancer-dockerfile
     source: build
     state: present
 
@@ -66,5 +91,7 @@
   community.docker.docker_compose:
     project_src: /vagrant
     state: present
+    scale:
+      api-rest: 2
   register: output
     

@@ -1,9 +1,19 @@
-version: "3.3"
+version: "3.7"
+
 services:
+
   api-rest:
     image: my-api-image:v1.0
-    #container_name: api_rest
-    hostname: apiserver
+    hostname: api-rest
+    extra_hosts:
+      - "dbsrv:192.168.56.57" # database server
+      - "develsrv:192.168.56.56" # devel server (for testing)
     ports:
-      - "5000:5000"
-    network_mode: "host"
+      - "5000"
+   
+  load-balancer:
+    image: my-loadbalancer:v2.0
+    ports:
+      - "80:80"
+    depends_on:
+      - api-rest
