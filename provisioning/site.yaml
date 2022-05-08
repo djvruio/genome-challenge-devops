@@ -2,6 +2,7 @@
 - hosts: devel
   roles:
     - docker
+    - app
 
 - hosts: database
   roles:

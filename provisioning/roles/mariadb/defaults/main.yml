@@ -18,7 +18,7 @@ mariadb_config_file: /etc/mysql/mariadb.cnf
 # Basic settings
 mariadb_datadir: /var/lib/mysql
 mariadb_port: 3306
-mariadb_bind_address: 127.0.0.1
+mariadb_bind_address: 0.0.0.0
 mariadb_unix_socket: /run/mysqld/mysqld.sock
 mariadb_basic_settings_raw: |
   user                  = mysql

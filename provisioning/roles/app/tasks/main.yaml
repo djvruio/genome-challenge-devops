@@ -1,0 +1,66 @@
+- name: 1. Deploying custom hosts file
+  ansible.builtin.copy:
+    src: hosts
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644
+
+- name: 2. Creating the build api directory
+  file:
+    path: /vagrant/build-api-dockerfile
+    state: directory
+    owner: vagrant
+    group: vagrant
+    mode: 0755
+
+- name: 3. Copying the API directory
+  copy:
+    src: /vagrant/api/
+    dest: /vagrant/build-api-dockerfile
+    owner: vagrant
+    group: vagrant
+    mode: 0644
+
+- name: 4. Building the API image
+  docker_image:
+    name: my-api-image
+    tag: v1.0
+    build:
+      path: /vagrant/build-api-dockerfile
+    source: build
+    state: present
+
+- name: 5. Creating the build loadbalancer directory
+  file:
+    path: /vagrant/build-loadbalancer-dockerfile
+    state: directory
+    owner: vagrant
+    group: vagrant
+    mode: 0755
+
+- name: 6. Copying the loadbalancer directory
+  copy:
+    src: /vagrant/loadbalancer/
+    dest: /vagrant/build-loadbalancer-dockerfile
+    owner: vagrant
+    group: vagrant
+    mode: 0644
+
+- name: 7. Building the loadbalancer image
+  docker_image:
+    name: my-loadbalancer
+    tag: v2.0
+    build:
+      path: /vagrant/build-loadbalancer-dockerfile
+    source: build
+    state: present
+
+- name: 8. Create and start the app services
+  community.docker.docker_compose:
+    project_src: /vagrant
+    state: present
+    scale:
+      api-rest: 2
+  register: output
+    

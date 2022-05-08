@@ -1,4 +1,4 @@
-- name: 1.d-install prerequisites
+- name: 1. Install prerequisites
   apt:
     name:
       - ca-certificates
@@ -9,15 +9,15 @@
       - libmariadb-dev
     update_cache: yes
 
-- name: 2.d-add apt-key
+- name: 2. Add apt-key
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
 
-- name: 3.d-add docker repo
+- name: 3. Add docker repo
   apt_repository:
     repo: deb https://download.docker.com/linux/ubuntu focal stable
 
-- name: 4.d-install docker and docker-compose
+- name: 4. Install docker and docker-compose
   apt:
     name:
       - docker-ce
@@ -26,72 +26,5 @@
       - docker-compose
     update_cache: yes
 
-- name: 5.d-add userpermissions
+- name: 5. Add userpermissions
   shell: "usermod -a -G docker vagrant"
-
-- name: Deploying custom hosts file
-  ansible.builtin.copy:
-    src: hosts
-    dest: /etc/hosts
-    owner: root
-    group: root
-    mode: 0644
-
-- name: Creating the build api directory
-  file:
-    path: /vagrant/build-api-dockerfile
-    state: directory
-    owner: vagrant
-    group: vagrant
-    mode: 0755
-
-- name: Copying the API directory
-  copy:
-    src: /vagrant/api/
-    dest: /vagrant/build-api-dockerfile
-    owner: vagrant
-    group: vagrant
-    mode: 0644
-
-- name: Building the API image
-  docker_image:
-    name: my-api-image
-    tag: v1.0
-    build:
-      path: /vagrant/build-api-dockerfile
-    source: build
-    state: present
-
-- name: Creating the build loadbalancer directory
-  file:
-    path: /vagrant/build-loadbalancer-dockerfile
-    state: directory
-    owner: vagrant
-    group: vagrant
-    mode: 0755
-
-- name: Copying the loadbalancer directory
-  copy:
-    src: /vagrant/loadbalancer/
-    dest: /vagrant/build-loadbalancer-dockerfile
-    owner: vagrant
-    group: vagrant
-    mode: 0644
-
-- name: Building the loadbalancer image
-  docker_image:
-    name: my-loadbalancer
-    tag: v2.0
-    build:
-      path: /vagrant/build-loadbalancer-dockerfile
-    source: build
-    state: present
-
-- name: Create and start services
-  community.docker.docker_compose:
-    project_src: /vagrant
-    state: present
-    scale:
-      api-rest: 2
-  register: output
-    
